@@ -76,7 +76,7 @@
 (package-install 'use-package)
 (package-refresh-contents)
 
-(9use-package yaml-mode :ensure t)
+(use-package yaml-mode :ensure t)
 
 (use-package kubernetes :ensure t)
 
