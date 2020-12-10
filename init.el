@@ -86,15 +86,6 @@
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)))
 
-(use-package flycheck-ledger :ensure t)
-
-(use-package ledger-mode
-  :ensure t
-  :bind (:map ledger-mode-map
-	      ("C-x C-s" . ny/ledger-save))
-  :config
-  (setq ledger-binary-path "/usr/local/bin/ledger"))
-
 (use-package company-ledger :ensure t)
 
 (use-package paredit :ensure t)
