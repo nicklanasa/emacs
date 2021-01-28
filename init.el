@@ -76,6 +76,8 @@
 (package-install 'use-package)
 (package-refresh-contents)
 
+(use-package swift-mode :ensure t)
+
 (use-package yaml-mode :ensure t)
 
 (use-package kubernetes :ensure t)
