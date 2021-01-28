@@ -88,8 +88,6 @@
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)))
 
-(use-package company-ledger :ensure t)
-
 (use-package paredit :ensure t)
 
 (use-package hydra
@@ -255,33 +253,7 @@ sheader? ")
                            (format "/usr/local/bin/pandoc -f markdown -t org -o %s"
                                    (concat (file-name-sans-extension (buffer-file-name)) ".org"))))
 
-(defun ny/ledger-save ()
-  "Automatically clean the ledger buffer at each save."
-  (interactive)
-  (save-excursion
-    (when (buffer-modified-p)
-      (with-demoted-errors (ledger-mode-clean-buffer))
-      (save-buffer))))
-
 ;; aliases
-
-;;;; Ledger aliases
-(defalias 'bud (lambda ()
-		 "Load budget report for ledger"
-		 (interactive)
-		 (ledger-report "bud" nil)))
-(defalias 'bal (lambda ()
-		 "Load balance report for ledger"
-		 (interactive)
-		 (ledger-report "bal" nil)))
-(defalias 'cash (lambda ()
-		  "Load cash report for ledger"
-		  (interactive)
-		  (ledger-report "cash" nil)))
-(defalias 'amex (lambda ()
-		  "Load cash report for ledger"
-		  (interactive)
-		  (ledger-report "amex" nil)))
 
 (defalias 'eb 'eval-buffer)
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -311,7 +283,7 @@ sheader? ")
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(projectile emojify markdown-mode org-roam smartparens rainbow-delimiters which-key ido-vertical-mode smex hydra paredit company-ledger ledger-mode flycheck-ledger exec-path-from-shell kubernetes use-package))
+   '(projectile emojify markdown-mode org-roam smartparens rainbow-delimiters which-key ido-vertical-mode smex hydra paredit exec-path-from-shell kubernetes use-package))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces
