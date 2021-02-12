@@ -5,7 +5,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(projectile rainbow-delimiters emojify which-key use-package smex smartparens paredit org-roam markdown-mode ledger-mode kubernetes ido-vertical-mode hydra flycheck-ledger exec-path-from-shell company-ledger))
+   '(swift-mode projectile rainbow-delimiters emojify which-key use-package smex smartparens paredit org-roam markdown-mode ledger-mode kubernetes ido-vertical-mode hydra flycheck-ledger exec-path-from-shell company-ledger))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces
@@ -13,4 +13,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(font-lock-comment-face ((t (:foreground "gray")))))
