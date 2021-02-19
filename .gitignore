@@ -19,3 +19,5 @@ flycheck_.emacs
 /auto-save-list/
 /.DS_Store
 gcal.el
+/ido.last
+/org-roam.db
