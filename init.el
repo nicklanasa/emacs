@@ -211,6 +211,17 @@
   (global-flycheck-mode)
   (setq flycheck-indication-mode 'right-fringe))
 
+(use-package org :ensure t
+  :config
+  (setq org-agenda-files (list "~/Dropbox/org/gtd.org" "~/Dropbox/org/work/meetings.org"))
+  (setq org-capture-templates
+    '(("t" "Todo" entry (file+headline "~/Dropbox/org/gtd.org" "Tasks")
+       "* TODO %?\n%U" :empty-lines 1)
+      ("n" "Note" entry (file+headline "~/Dropbox/org/notes.org" "Notes")
+       "* %?\n%U" :empty-lines 1)
+      ("m" "Meeting" entry (file+datetree "~/Dropbox/org/work/meetings.org" "Meetings")
+       "* %?\n%U" :empty-lines 1))))
+
 (use-package org-roam :ensure t
   :config
   (setq org-roam-directory "~/notes/slip-box")
