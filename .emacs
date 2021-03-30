@@ -4,8 +4,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(org-agenda-files nil)
  '(package-selected-packages
-   '(org pug-mode jedi-direx jedi elpy projectile rainbow-delimiters emojify which-key use-package smex smartparens paredit org-roam markdown-mode ledger-mode kubernetes ido-vertical-mode hydra flycheck-ledger exec-path-from-shell company-ledger))
+   '(elfeed org pug-mode jedi-direx jedi elpy projectile rainbow-delimiters emojify which-key use-package smex smartparens paredit org-roam markdown-mode ledger-mode kubernetes ido-vertical-mode hydra flycheck-ledger exec-path-from-shell company-ledger))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces

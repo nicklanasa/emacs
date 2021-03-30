@@ -68,13 +68,21 @@
 (setq js-indent-level 2)
 
 ;; Packages
-
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
 
 (package-install 'use-package)
 (package-refresh-contents)
+
+(use-package elfeed
+  :ensure t
+  :config
+  (setq elfeed-feeds
+	'("http://nullprogram.com/feed/"
+          "http://planet.emacsen.org/atom.xml"
+	  "http://news.mit.edu/rss/topic/artificial-intelligence2"
+	  "https://lexfridman.com/category/ai/feed")))
 
 (use-package pug-mode :ensure t)
 
@@ -121,7 +129,6 @@
 
 (use-package web-mode :ensure t)
 
-;;;; smex
 (use-package smex
   :ensure t
   :config
@@ -213,18 +220,30 @@
 
 (use-package org :ensure t
   :config
-  (setq org-agenda-files (list "~/Dropbox/org/gtd.org" "~/Dropbox/org/work/meetings.org"))
+  (setq org-agenda-files (list "~/Desktop/org/personal/gtd.org" "~/Desktop/org/work/meetings.org"))
   (setq org-capture-templates
-    '(("t" "Todo" entry (file+headline "~/Dropbox/org/gtd.org" "Tasks")
+    '(("t" "Todo" entry (file+headline "~/Desktop/org/personal/gtd.org" "Inbox")
        "* TODO %?\n%U" :empty-lines 1)
-      ("n" "Note" entry (file+headline "~/Dropbox/org/notes.org" "Notes")
-       "* %?\n%U" :empty-lines 1)
-      ("m" "Meeting" entry (file+datetree "~/Dropbox/org/work/meetings.org" "Meetings")
-       "* %?\n%U" :empty-lines 1))))
+      ("m" "Meeting" entry (file+datetree "~/Desktop/org/work/meetings.org" "Meetings")
+       "* %?\n%U" :empty-lines 1)))
+
+  (setq org-tag-alist '(("@work" . ?w) ("@home" . ?h) ("laptop" . ?l) ("yard" . ?y)))
+
+  (setq org-agenda-custom-commands
+	'(("h" "Agenda and Home-related tasks"
+           ((agenda "")
+            (tags-todo "@home")
+            (tags "yard")))
+          ("o" "Agenda and Office-related tasks"
+           ((agenda "")
+            (tags-todo "@work")
+            (tags "office")))))
+
+  (add-hook 'org-agenda-mode-hook 'visual-line-mode))
 
 (use-package org-roam :ensure t
   :config
-  (setq org-roam-directory "~/notes/slip-box")
+  (setq org-roam-directory "~/Desktop/org/slip-box/")
   (add-hook 'after-init-hook 'org-roam-mode)
   :bind (:map org-roam-mode-map
 	      (("C-c n l" . org-roam)
@@ -241,8 +260,7 @@
 
 ;; defuns
 (defun ny/org-insert-source-block (name language switches header)
-  "Asks name, language, switches, header.
-Inserts org-mode source code snippet"
+  "Asks name, language, switches, header.Inserts org-mode source code snippet"
   (interactive "sname? 
 slanguage? 
 sswitches? 
@@ -285,34 +303,7 @@ sheader? ")
                            (format "/usr/local/bin/pandoc -f markdown -t org -o %s"
                                    (concat (file-name-sans-extension (buffer-file-name)) ".org"))))
 
-(defun ny/ledger-save ()
-  "Automatically clean the ledger buffer at each save."
-  (interactive)
-  (save-excursion
-    (when (buffer-modified-p)
-      (with-demoted-errors (ledger-mode-clean-buffer))
-      (save-buffer))))
-
 ;; aliases
-
-;;;; Ledger aliases
-(defalias 'bud (lambda ()
-		 "Load budget report for ledger"
-		 (interactive)
-		 (ledger-report "bud" nil)))
-(defalias 'bal (lambda ()
-		 "Load balance report for ledger"
-		 (interactive)
-		 (ledger-report "bal" nil)))
-(defalias 'cash (lambda ()
-		  "Load cash report for ledger"
-		  (interactive)
-		  (ledger-report "cash" nil)))
-(defalias 'amex (lambda ()
-		  "Load cash report for ledger"
-		  (interactive)
-		  (ledger-report "amex" nil)))
-
 (defalias 'eb 'eval-buffer)
 (defalias 'yes-or-no-p 'y-or-n-p)
 
