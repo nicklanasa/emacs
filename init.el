@@ -11,6 +11,13 @@
 (setq make-backup-files nil)
 (setq auto-save-default t)
 
+;; hide menu bar
+(menu-bar-mode -1)
+
+;; Hide lines when splitting windows
+(set-face-background 'vertical-border "black")
+(set-face-foreground 'vertical-border (face-background 'vertical-border))
+
 ;; Save a list of recent files visited. (open recent file with C-x f)
 (recentf-mode 1)
 
@@ -80,9 +87,14 @@
   :config
   (setq elfeed-feeds
 	'("http://nullprogram.com/feed/"
+	  "https://hnrss.org/frontpage"
           "http://planet.emacsen.org/atom.xml"
+	  "https://sachachua.com/blog/category/weekly/feed/"
 	  "http://news.mit.edu/rss/topic/artificial-intelligence2"
-	  "https://lexfridman.com/category/ai/feed")))
+	  "https://lexfridman.com/category/ai/feed"
+	  "https://www.reddit.com/r/popular.rss"))
+
+    (add-hook 'elfeed-mode-hook 'visual-line-mode))
 
 (use-package pug-mode :ensure t)
 
@@ -218,32 +230,47 @@
   (global-flycheck-mode)
   (setq flycheck-indication-mode 'right-fringe))
 
-(use-package org :ensure t
+(use-package org
+  :ensure t
   :config
-  (setq org-agenda-files (list "~/Desktop/org/personal/gtd.org" "~/Desktop/org/work/meetings.org"))
+  (setq org-agenda-files (list "~/Desktop/Desktop - Nickolas’s MacBook Pro/org/personal/gtd.org" "~/Desktop/Desktop - Nickolas’s MacBook Pro/org/work/meetings.org"))
   (setq org-capture-templates
-    '(("t" "Todo" entry (file+headline "~/Desktop/org/personal/gtd.org" "Inbox")
-       "* TODO %?\n%U" :empty-lines 1)
-      ("m" "Meeting" entry (file+datetree "~/Desktop/org/work/meetings.org" "Meetings")
-       "* %?\n%U" :empty-lines 1)))
+	'(("t" "Todo" entry (file+headline "~/Desktop/Desktop - Nickolas’s MacBook Pro/org/personal/gtd.org" "Inbox")
+	   "* TODO %?\n%U"
+	   :empty-lines 1)
+	  ("c" "Cookbook" entry (file "~/Desktop/Desktop - Nickolas’s MacBook Pro/org/personal/cookbook.org")
+	   "%(org-chef-get-recipe-from-url)"
+	   :empty-lines 1)
+	  ("r" "Manual Cookbook" entry (file "~/Desktop/Desktop - Nickolas’s MacBook Pro/org/personal/cookbook.org")
+           "* %^{Recipe title: }\n  :PROPERTIES:\n  :source-url:\n  :servings:\n  :prep-time:\n  :cook-time:\n  :ready-in:\n  :END:\n** Ingredients\n   %?\n** Directions\n\n")
+	  ("m" "Meeting" entry (file+datetree "~/Desktop/Desktop - Nickolas’s MacBook Pro/org/work/meetings.org" "Meetings")
+	   "* %?\n%U"
+	   :empty-lines 1)))
 
-  (setq org-tag-alist '(("@work" . ?w) ("@home" . ?h) ("laptop" . ?l) ("yard" . ?y)))
+  (setq org-tag-alist '(("@work" . ?w) ("@home" . ?h) ("laptop" . ?c) ("yard" . ?y) ("blog" . ?b) ("lella" . ?l)))
+  (setq org-agenda-tags-column 150)
+  (setq org-agenda-skip-scheduled-if-done t) ;; Skip scheduled items if done
+  (setq org-agenda-skip-timestamp-if-done t) ;; Skip items if done
+  (setq org-agenda-span 10) ;; So that today is always at the top
 
   (setq org-agenda-custom-commands
 	'(("h" "Agenda and Home-related tasks"
            ((agenda "")
+	    (tags-todo "lella")
             (tags-todo "@home")
-            (tags "yard")))
+            (tags "yard")
+	    (tags-todo "-{.*}")))
+	  ("g" "Agenda and Galaxy Games tasks"
+           ((agenda "")
+            (tags-todo "@galaxy")))
           ("o" "Agenda and Office-related tasks"
            ((agenda "")
             (tags-todo "@work")
-            (tags "office")))))
-
-  (add-hook 'org-agenda-mode-hook 'visual-line-mode))
+            (tags "office"))))))
 
 (use-package org-roam :ensure t
   :config
-  (setq org-roam-directory "~/Desktop/org/slip-box/")
+  (setq org-roam-directory "~/Desktop/Desktop - Nickolas’s MacBook Pro/org/personal/org/slip-box/")
   (add-hook 'after-init-hook 'org-roam-mode)
   :bind (:map org-roam-mode-map
 	      (("C-c n l" . org-roam)
@@ -252,6 +279,9 @@
 	      :map org-mode-map
 	      (("C-c n i" . org-roam-insert))
 	      (("C-c n I" . org-roam-insert-immediate))))
+
+(use-package org-chef
+  :ensure t)
 
 (use-package markdown-mode
   :ensure t
@@ -294,7 +324,7 @@ sheader? ")
 
 (defun ny/org-files ()
   (interactive)
-  (find-file "~/Dropbox/org"))
+  (dired "~/Desktop/Desktop - Nickolas’s MacBook Pro/org/personal/"))
 
 (defun ny/markdown-convert-buffer-to-org ()
   "Convert the current buffer's content from markdown to orgmode format and save it with the current buffer's file name but with .org extension."

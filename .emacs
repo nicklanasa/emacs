@@ -6,7 +6,7 @@
  ;; If there is more than one, they won't work right.
  '(org-agenda-files nil)
  '(package-selected-packages
-   '(elfeed org pug-mode jedi-direx jedi elpy projectile rainbow-delimiters emojify which-key use-package smex smartparens paredit org-roam markdown-mode ledger-mode kubernetes ido-vertical-mode hydra flycheck-ledger exec-path-from-shell company-ledger))
+   '(org-chef elfeed org pug-mode jedi-direx jedi elpy projectile rainbow-delimiters emojify which-key use-package smex smartparens paredit org-roam markdown-mode ledger-mode kubernetes ido-vertical-mode hydra flycheck-ledger exec-path-from-shell company-ledger))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces
