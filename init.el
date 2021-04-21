@@ -14,10 +14,6 @@
 ;; hide menu bar
 (menu-bar-mode -1)
 
-;; Hide lines when splitting windows
-(set-face-background 'vertical-border "black")
-(set-face-foreground 'vertical-border (face-background 'vertical-border))
-
 ;; Save a list of recent files visited. (open recent file with C-x f)
 (recentf-mode 1)
 
@@ -233,44 +229,45 @@
 (use-package org
   :ensure t
   :config
-  (setq org-agenda-files (list "~/Desktop/Desktop - Nickolas’s MacBook Pro/org/personal/gtd.org" "~/Desktop/Desktop - Nickolas’s MacBook Pro/org/work/meetings.org"))
   (setq org-capture-templates
-	'(("t" "Todo" entry (file+headline "~/Desktop/Desktop - Nickolas’s MacBook Pro/org/personal/gtd.org" "Inbox")
+	'(("t" "Todo" entry (file+headline "~/Dropbox/org/inbox.org" "")
 	   "* TODO %?\n%U"
 	   :empty-lines 1)
-	  ("c" "Cookbook" entry (file "~/Desktop/Desktop - Nickolas’s MacBook Pro/org/personal/cookbook.org")
+	  ("c" "Cookbook" entry (file "~/Dropbox/org/cookbook.org")
 	   "%(org-chef-get-recipe-from-url)"
 	   :empty-lines 1)
-	  ("r" "Manual Cookbook" entry (file "~/Desktop/Desktop - Nickolas’s MacBook Pro/org/personal/cookbook.org")
+	  ("r" "Manual Cookbook" entry (file "~/Dropbox/org/cookbook.org")
            "* %^{Recipe title: }\n  :PROPERTIES:\n  :source-url:\n  :servings:\n  :prep-time:\n  :cook-time:\n  :ready-in:\n  :END:\n** Ingredients\n   %?\n** Directions\n\n")
-	  ("m" "Meeting" entry (file+datetree "~/Desktop/Desktop - Nickolas’s MacBook Pro/org/work/meetings.org" "Meetings")
+	  ("m" "Meeting" entry (file+datetree "~/Dropbox/org/meetings.org" "Meetings")
 	   "* %?\n%U"
 	   :empty-lines 1)))
 
-  (setq org-tag-alist '(("@work" . ?w) ("@home" . ?h) ("laptop" . ?c) ("yard" . ?y) ("blog" . ?b) ("lella" . ?l)))
-  (setq org-agenda-tags-column 150)
-  (setq org-agenda-skip-scheduled-if-done t) ;; Skip scheduled items if done
-  (setq org-agenda-skip-timestamp-if-done t) ;; Skip items if done
-  (setq org-agenda-span 10) ;; So that today is always at the top
+  (setq org-tag-alist '(("@work" . ?w) ("@home" . ?h) ("laptop" . ?c) ("yard" . ?y) ("blog" . ?b) ("lella" . ?l) ("read" . ?r)))
 
+  (setq org-agenda-tags-column 150
+	org-agenda-skip-scheduled-if-done t
+	org-agenda-block-separator nil
+	org-agenda-start-with-log-mode t)
+
+  (setq org-agenda-directory '("~/Dropbox/org"))
+  (setq org-agenda-files '("~/Dropbox/org/inbox.org" "~/Dropbox/org/repeaters.org"))
   (setq org-agenda-custom-commands
-	'(("h" "Agenda and Home-related tasks"
-           ((agenda "")
-	    (tags-todo "lella")
-            (tags-todo "@home")
-            (tags "yard")
-	    (tags-todo "-{.*}")))
-	  ("g" "Agenda and Galaxy Games tasks"
-           ((agenda "")
-            (tags-todo "@galaxy")))
-          ("o" "Agenda and Office-related tasks"
-           ((agenda "")
-            (tags-todo "@work")
-            (tags "office"))))))
+	`((" " "Agenda"
+          ((agenda ""
+                   ((org-agenda-span 'week)
+		    (org-agenda-files '("~/Dropbox/org/inbox.org" "~/Dropbox/org/repeaters.org"))
+                    (org-deadline-warning-days 365)))
+	   (todo "TODO"
+		 ((org-agenda-overriding-header "Repeaters")
+		  (org-agenda-files '("~/Dropbox/org/repeaters.org"))))
+	   (todo "TODO"
+		 ((org-agenda-overriding-header "Inbox")
+		  (org-agenda-files '("~/Dropbox/org/inbox.org"))))
+	   )))))
 
 (use-package org-roam :ensure t
   :config
-  (setq org-roam-directory "~/Desktop/Desktop - Nickolas’s MacBook Pro/org/personal/org/slip-box/")
+  (setq org-roam-directory "~/Dropbox/org/slip-box/")
   (add-hook 'after-init-hook 'org-roam-mode)
   :bind (:map org-roam-mode-map
 	      (("C-c n l" . org-roam)
@@ -324,7 +321,7 @@ sheader? ")
 
 (defun ny/org-files ()
   (interactive)
-  (dired "~/Desktop/Desktop - Nickolas’s MacBook Pro/org/personal/"))
+  (dired "~/Dropbox/org/"))
 
 (defun ny/markdown-convert-buffer-to-org ()
   "Convert the current buffer's content from markdown to orgmode format and save it with the current buffer's file name but with .org extension."
