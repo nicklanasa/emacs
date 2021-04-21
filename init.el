@@ -285,6 +285,8 @@
   :config
   (setq markdown-command "/usr/local/bin/markdown"))
 
+(use-package groovy-mode :ensure t)
+
 ;; defuns
 (defun ny/org-insert-source-block (name language switches header)
   "Asks name, language, switches, header.Inserts org-mode source code snippet"
