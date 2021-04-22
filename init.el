@@ -256,7 +256,7 @@
 	org-agenda-skip-scheduled-if-done t
 	org-agenda-block-separator nil
 	org-use-speed-commands t
-	org-agenda-start-with-log-mode t)x
+	org-agenda-start-with-log-mode t)
 
   (setq org-agenda-directory '("~/Dropbox/org"))
   (setq org-agenda-files '("~/Dropbox/org/inbox.org" "~/Dropbox/org/repeaters.org"))
