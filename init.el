@@ -2,7 +2,7 @@
 ;;; Commentary:
 ;;; Code:
 (setq user-full-name "Nickolas Lanasa"
-      user-mail-address "nytek@mac.com")
+      user-mail-address "nicklanasa@gmail.com")
 
 ;; Defaults
 (set-face-attribute 'default nil :font "Monaco 16")
@@ -230,7 +230,7 @@
   :ensure t
   :config
   (setq org-capture-templates
-	'(("t" "Todo" entry (file+headline "~/Dropbox/org/inbox.org" "")
+	'(("t" "Todo" entry (file "~/Dropbox/org/inbox.org")
 	   "* TODO %?\n%U"
 	   :empty-lines 1)
 	  ("c" "Cookbook" entry (file "~/Dropbox/org/cookbook.org")
@@ -242,12 +242,21 @@
 	   "* %?\n%U"
 	   :empty-lines 1)))
 
+  (setq org-todo-keywords
+	'((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+          (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)")))
   (setq org-tag-alist '(("@work" . ?w) ("@home" . ?h) ("laptop" . ?c) ("yard" . ?y) ("blog" . ?b) ("lella" . ?l) ("read" . ?r)))
 
+  (setq org-log-done 'time
+	org-log-into-drawer t
+	org-log-state-notes-insert-after-drawers nil)
+
   (setq org-agenda-tags-column 150
+	org-adapt-indentation nil
 	org-agenda-skip-scheduled-if-done t
 	org-agenda-block-separator nil
-	org-agenda-start-with-log-mode t)
+	org-use-speed-commands t
+	org-agenda-start-with-log-mode t)x
 
   (setq org-agenda-directory '("~/Dropbox/org"))
   (setq org-agenda-files '("~/Dropbox/org/inbox.org" "~/Dropbox/org/repeaters.org"))
