@@ -5,7 +5,7 @@
       user-mail-address "nicklanasa@gmail.com")
 
 ;; Defaults
-(set-face-attribute 'default nil :font "Monaco 16")
+(set-face-attribute 'default nil :font "Monaco 14")
 (set-background-color 'nil)
 
 (setq make-backup-files nil)
@@ -259,12 +259,25 @@
 	org-agenda-start-with-log-mode t)
 
   (setq org-agenda-directory '("~/Dropbox/org"))
-  (setq org-agenda-files '("~/Dropbox/org/inbox.org" "~/Dropbox/org/repeaters.org"))
+  (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
+  (setq org-agenda-files '("~/Dropbox/org/inbox.org"
+			   "~/Dropbox/org/repeaters.org"
+			   "~/Dropbox/org/personal.org"
+			   "~/Dropbox/org/galaxy.org"
+			   "~/Dropbox/org/calendar/gcal.org"
+			   "~/Dropbox/org/calendar/bills.org"
+			   "~/Dropbox/org/calendar/lella.org"))
   (setq org-agenda-custom-commands
 	`((" " "Agenda"
           ((agenda ""
                    ((org-agenda-span 'week)
-		    (org-agenda-files '("~/Dropbox/org/inbox.org" "~/Dropbox/org/repeaters.org"))
+		    (org-agenda-files '("~/Dropbox/org/inbox.org"
+					"~/Dropbox/org/repeaters.org"
+					"~/Dropbox/org/personal.org"
+					"~/Dropbox/org/galaxy.org"
+					"~/Dropbox/org/calendar/gcal.org"
+					"~/Dropbox/org/calendar/bills.org"
+					"~/Dropbox/org/calendar/lella.org"))
                     (org-deadline-warning-days 365)))
 	   (todo "TODO"
 		 ((org-agenda-overriding-header "Repeaters")
@@ -272,7 +285,14 @@
 	   (todo "TODO"
 		 ((org-agenda-overriding-header "Inbox")
 		  (org-agenda-files '("~/Dropbox/org/inbox.org"))))
+	   (todo "TODO"
+		 ((org-agenda-overriding-header "Personal")
+		  (org-agenda-files '("~/Dropbox/org/personal.org"))))
+	   (todo "TODO"
+		 ((org-agenda-overriding-header "Galaxy")
+		  (org-agenda-files '("~/Dropbox/org/galaxy.org"))))
 	   )))))
+
 
 (use-package org-roam :ensure t
   :config
@@ -295,6 +315,9 @@
   (setq markdown-command "/usr/local/bin/markdown"))
 
 (use-package groovy-mode :ensure t)
+
+(load (expand-file-name "gcal.el" user-emacs-directory))
+(require 'gcal)
 
 ;; defuns
 (defun ny/org-insert-source-block (name language switches header)
@@ -371,7 +394,7 @@ sheader? ")
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(web-mode projectile emojify markdown-mode org-roam smartparens rainbow-delimiters which-key ido-vertical-mode smex hydra paredit company-ledger ledger-mode flycheck-ledger exec-path-from-shell kubernetes use-package))
+   '(org-gcal web-mode projectile emojify markdown-mode org-roam smartparens rainbow-delimiters which-key ido-vertical-mode smex hydra paredit company-ledger ledger-mode flycheck-ledger exec-path-from-shell kubernetes use-package))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces
@@ -379,4 +402,5 @@ sheader? ")
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(magit-diff-added ((t (:extend t :background "#335533" :foreground "#fff"))))
+ '(magit-diff-added-highlight ((t (:extend t :background "#336633" :foreground "#fff")))))
